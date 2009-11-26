@@ -98,17 +98,6 @@ bool IdentifierHandler::actionStatementState18()
   return true;
 }
 
-bool IdentifierHandler::actionStatementState20()
-{
-  if ( !mManager->hasVariableIdentifier( currentToken().identifierValue() ) &&
-       !mManager->hasConstIdentifier( currentToken().identifierValue() ) ) {
-    setErrorText( QString( "Variable %1 is undeclared in this scope" ).arg( currentToken().identifierValue() ) );
-    return false;
-  }
-
-  return true;
-}
-
 bool IdentifierHandler::actionFactorState0()
 {
   // push the numeric literal as anonymous const identifier
@@ -123,7 +112,7 @@ bool IdentifierHandler::actionFactorState4()
 {
   if ( !mManager->hasVariableIdentifier( currentToken().identifierValue() ) &&
        !mManager->hasConstIdentifier( currentToken().identifierValue() ) ) {
-    setErrorText( QString( "Variable %1 is undeclared in this scope" ).arg( currentToken().identifierValue() ) );
+    setErrorText( QString( "Variable/constant %1 is undeclared in this scope" ).arg( currentToken().identifierValue() ) );
     return false;
   }
 

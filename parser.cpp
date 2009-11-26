@@ -153,7 +153,7 @@ Transition s_Statement[] = {
  /*17*/ { SymbolTransition,  {(unsigned long)Token::InputSymbol},     18, 19, HandlerBase::ActionStatementState17 },
  /*18*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken}, 22, -1, HandlerBase::ActionStatementState18 },
  /*19*/ { SymbolTransition,  {(unsigned long)Token::OutputSymbol},    20, 21, HandlerBase::ActionStatementState19 },
- /*20*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken}, 22, -1, HandlerBase::ActionStatementState20 },
+ /*20*/ { GraphTransition,   {(unsigned long)3},                      22, -1, HandlerBase::ActionStatementState20 },
  /*21*/ { NilTransition,     {(unsigned long)0},                      22, -1, HandlerBase::ActionStatementState21 },
  /*22*/ { EndTransition,     {(unsigned long)0},                       0, -1, HandlerBase::ActionStatementState22 }
 };

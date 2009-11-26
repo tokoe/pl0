@@ -33,9 +33,6 @@ class IdentifierHandler : public HandlerBase
     // INPUT
     virtual bool actionStatementState18();
 
-    // OUTPUT
-    virtual bool actionStatementState20();
-
     // NUMERICAL VALUE
     virtual bool actionFactorState0();
 
