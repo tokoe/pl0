@@ -30,12 +30,31 @@ bool CodeGenerationHandler::actionBlockState20()
 // IDENTIFIER
 bool CodeGenerationHandler::actionStatementState0()
 {
+  const QString name = currentToken().identifierValue();
+
+  IdentifierManager::VariableType type;
+  int variableAddress;
+  int procedureIndex;
+  mManager->getVariableAddress( name, type, variableAddress, procedureIndex );
+  switch ( type ) {
+    case IdentifierManager::Local:
+      mWriter->writeOperation( CodeWriter::PutAddressVariableLocal, variableAddress );
+      break;
+    case IdentifierManager::Main:
+      mWriter->writeOperation( CodeWriter::PutAddressVariableMain, variableAddress );
+      break;
+    case IdentifierManager::Global:
+      mWriter->writeOperation( CodeWriter::PutAddressVariableGlobal, variableAddress, procedureIndex );
+      break;
+  }
+
   return true;
 }
 
 // EXPRESSION
 bool CodeGenerationHandler::actionStatementState2()
 {
+  mWriter->writeOperation( CodeWriter::StoreValue );
   return true;
 }
 
@@ -81,12 +100,32 @@ bool CodeGenerationHandler::actionStatementState16()
 // INPUT IDENTIFIER
 bool CodeGenerationHandler::actionStatementState18()
 {
+  const QString name = currentToken().identifierValue();
+
+  IdentifierManager::VariableType type;
+  int variableAddress;
+  int procedureIndex;
+  mManager->getVariableAddress( name, type, variableAddress, procedureIndex );
+  switch ( type ) {
+    case IdentifierManager::Local:
+      mWriter->writeOperation( CodeWriter::PutAddressVariableLocal, variableAddress );
+      break;
+    case IdentifierManager::Main:
+      mWriter->writeOperation( CodeWriter::PutAddressVariableMain, variableAddress );
+      break;
+    case IdentifierManager::Global:
+      mWriter->writeOperation( CodeWriter::PutAddressVariableGlobal, variableAddress, procedureIndex );
+      break;
+  }
+
+  mWriter->writeOperation( CodeWriter::GetValue );
   return true;
 }
 
-// OUTPUT IDENTIFIER
+// OUTPUT EXPRESSION
 bool CodeGenerationHandler::actionStatementState20()
 {
+  mWriter->writeOperation( CodeWriter::PutValue );
   return true;
 }
 
@@ -162,13 +201,13 @@ bool CodeGenerationHandler::actionFactorState4()
     mManager->getVariableAddress( name, type, variableAddress, procedureIndex );
     switch ( type ) {
       case IdentifierManager::Local:
-        mWriter->writeOperation( CodeWriter::PutAddressVariableLocal, variableAddress );
+        mWriter->writeOperation( CodeWriter::PutValueVariableLocal, variableAddress );
         break;
       case IdentifierManager::Main:
-        mWriter->writeOperation( CodeWriter::PutAddressVariableMain, variableAddress );
+        mWriter->writeOperation( CodeWriter::PutValueVariableMain, variableAddress );
         break;
       case IdentifierManager::Global:
-        mWriter->writeOperation( CodeWriter::PutAddressVariableGlobal, variableAddress, procedureIndex );
+        mWriter->writeOperation( CodeWriter::PutValueVariableGlobal, variableAddress, procedureIndex );
         break;
     }
   }
@@ -199,6 +238,7 @@ bool CodeGenerationHandler::actionConditionState4()
     case Token::GreaterThanSymbol: mWriter->writeOperation( CodeWriter::CompareGreaterThan ); break;
     case Token::LessThanEqualSymbol: mWriter->writeOperation( CodeWriter::CompareLessThanEqual ); break;
     case Token::GreaterThanEqualSymbol: mWriter->writeOperation( CodeWriter::CompareGreaterThanEqual ); break;
+    default: break;
   }
 
   return true;

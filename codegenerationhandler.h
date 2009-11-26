@@ -39,7 +39,7 @@ class CodeGenerationHandler : public HandlerBase
     virtual bool actionStatementState16();
     // INPUT IDENTIFIER
     virtual bool actionStatementState18();
-    // OUTPUT IDENTIFIER
+    // OUTPUT EXPRESSION
     virtual bool actionStatementState20();
 
     // MINUS
