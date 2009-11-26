@@ -30,13 +30,19 @@ class IdentifierManager::IdentifierBase
       return mName;
     }
 
+    inline ProcedureIdentifier* parentProcedure() const
+    {
+      return mParentProcedure;
+    }
+
   protected:
-    IdentifierBase( Type type )
-      : mType( type )
+    IdentifierBase( ProcedureIdentifier *parent, Type type )
+      : mParentProcedure( parent ), mType( type )
     {
     }
 
   private:
+    ProcedureIdentifier *mParentProcedure;
     Type mType;
     QString mName;
 };
@@ -44,19 +50,9 @@ class IdentifierManager::IdentifierBase
 class IdentifierManager::ConstIdentifier : public IdentifierManager::IdentifierBase
 {
   public:
-    ConstIdentifier()
-      : IdentifierBase( Const )
+    ConstIdentifier( ProcedureIdentifier *parent )
+      : IdentifierBase( parent, Const )
     {
-    }
-
-    inline void setValue( int value )
-    {
-      mValue = value;
-    }
-
-    inline int value() const
-    {
-      return mValue;
     }
 
     inline void setIndex( int index )
@@ -77,8 +73,8 @@ class IdentifierManager::ConstIdentifier : public IdentifierManager::IdentifierB
 class IdentifierManager::VariableIdentifier : public IdentifierManager::IdentifierBase
 {
   public:
-    VariableIdentifier()
-      : IdentifierBase( Variable )
+    VariableIdentifier( ProcedureIdentifier *parent )
+      : IdentifierBase( parent, Variable )
     {
     }
 
@@ -100,16 +96,10 @@ class IdentifierManager::ProcedureIdentifier : public IdentifierManager::Identif
 {
   public:
     ProcedureIdentifier( int index, ProcedureIdentifier *parent )
-      : IdentifierBase( Procedure ),
+      : IdentifierBase( parent, Procedure ),
         mIndex( index ),
-        mParentProcedure( parent ),
         mVariableAddressCounter( 0 )
     {
-    }
-
-    inline ProcedureIdentifier* parentProcedure() const
-    {
-      return mParentProcedure;
     }
 
     void addIdentifier( IdentifierBase *identifier )
@@ -142,7 +132,6 @@ class IdentifierManager::ProcedureIdentifier : public IdentifierManager::Identif
 
   private:
     int mIndex;
-    ProcedureIdentifier *mParentProcedure;
     int mVariableAddressCounter;
     QList<IdentifierBase*> mChildIdentifiers;
 };
@@ -150,8 +139,7 @@ class IdentifierManager::ProcedureIdentifier : public IdentifierManager::Identif
 IdentifierManager::IdentifierManager()
   : mMainProcedure( new ProcedureIdentifier( 0, 0 ) ),
     mCurrentProcedure( mMainProcedure ),
-    mProcedureCounter( 1 ),
-    mConstIdentifierCounter( 0 )
+    mProcedureCounter( 1 )
 {
 }
 
@@ -172,12 +160,17 @@ void IdentifierManager::setValue( int value )
 
 bool IdentifierManager::pushConstIdentifier()
 {
-  ConstIdentifier *identifier = new ConstIdentifier;
-  identifier->setName( mCurrentName );
-  identifier->setValue( mCurrentValue );
-  identifier->setIndex( mConstIdentifierCounter );
+  int index = 0;
+  if ( mConstIdentifierValues.contains( mCurrentValue ) ) {
+    index = mConstIdentifierValues.indexOf( mCurrentValue );
+  } else {
+    mConstIdentifierValues.append( mCurrentValue );
+    index = mConstIdentifierValues.count() - 1;
+  }
 
-  mConstIdentifierCounter++;
+  ConstIdentifier *identifier = new ConstIdentifier( mCurrentProcedure );
+  identifier->setName( mCurrentName );
+  identifier->setIndex( index );
 
   mCurrentProcedure->addIdentifier( identifier );
 
@@ -186,7 +179,7 @@ bool IdentifierManager::pushConstIdentifier()
 
 bool IdentifierManager::pushVariableIdentifier()
 {
-  VariableIdentifier *identifier = new VariableIdentifier;
+  VariableIdentifier *identifier = new VariableIdentifier( mCurrentProcedure );
   identifier->setName( mCurrentName );
 
   mCurrentProcedure->addIdentifier( identifier );
@@ -231,23 +224,6 @@ bool IdentifierManager::hasConstIdentifier( const QString &name ) const
   return (find( IdentifierBase::Const, name ) != 0);
 }
 
-bool IdentifierManager::hasAnonymousConstIdentifier( int value ) const
-{
-  ProcedureIdentifier *procedure = mCurrentProcedure;
-  do {
-
-    foreach ( IdentifierBase *identifier, procedure->childIdentifiers() ) {
-      if ( (identifier->type() == IdentifierBase::Const) &&
-           (static_cast<ConstIdentifier*>( identifier )->value() == value) )
-        return true;
-    }
-
-    procedure = procedure->parentProcedure();
-  } while ( procedure );
-
-  return false;
-}
-
 bool IdentifierManager::hasProcedureIdentifier( const QString &name ) const
 {
   return (find( IdentifierBase::Procedure, name ) != 0);
@@ -270,8 +246,35 @@ bool IdentifierManager::hasLocalProcedureIdentifier( const QString &name ) const
 
 int IdentifierManager::procedureIndex( const QString &name ) const
 {
-  ProcedureIdentifier *procedure = static_cast<ProcedureIdentifier*>( find( IdentifierBase::Procedure, name ) );
-  return procedure->index();
+  ProcedureIdentifier *identifier = static_cast<ProcedureIdentifier*>( find( IdentifierBase::Procedure, name ) );
+  return identifier->index();
+}
+
+int IdentifierManager::constIndex( const QString &name ) const
+{
+  ConstIdentifier *identifier = static_cast<ConstIdentifier*>( find( IdentifierBase::Const, name ) );
+  return identifier->index();
+}
+
+int IdentifierManager::constIndex( int value ) const
+{
+  return mConstIdentifierValues.indexOf( value );
+}
+
+void IdentifierManager::getVariableAddress( const QString &name, VariableType &type, int &variableAddress, int &procedureIndex ) const
+{
+  const VariableIdentifier *identifier = static_cast<VariableIdentifier*>( find( IdentifierBase::Variable, name ) );
+  variableAddress = identifier->index();
+
+  const ProcedureIdentifier *parentProcedure = identifier->parentProcedure();
+  if ( parentProcedure == mMainProcedure ) {
+    type = Main;
+  } else if ( parentProcedure == mCurrentProcedure ) {
+    type = Local;
+  } else {
+    type = Global;
+    procedureIndex = parentProcedure->index();
+  }
 }
 
 IdentifierManager::IdentifierBase* IdentifierManager::find( int type, const QString &name ) const

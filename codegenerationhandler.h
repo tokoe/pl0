@@ -44,6 +44,8 @@ class CodeGenerationHandler : public HandlerBase
 
     // MINUS
     virtual bool actionExpressionState0();
+    // NON_MINUS
+    virtual bool actionExpressionState1();
     // FIRST TERM
     virtual bool actionExpressionState2();
     // ADD TERM
@@ -79,6 +81,8 @@ class CodeGenerationHandler : public HandlerBase
   private:
     IdentifierManager *mManager;
     CodeWriter *mWriter;
+    bool mTermIsNegative;
+    Token::SymbolType mComparisonSymbol;
 };
 
 #endif

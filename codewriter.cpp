@@ -12,6 +12,11 @@ CodeWriter::~CodeWriter()
 {
 }
 
+void CodeWriter::writeOperation( OpCode code )
+{
+  mDevice->putChar( code );
+}
+
 void CodeWriter::writeOperation( OpCode code, short arg )
 {
   mDevice->putChar( code );

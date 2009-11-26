@@ -2,6 +2,7 @@
 #ifndef IDENTIFIERMANAGER_H
 #define IDENTIFIERMANAGER_H
 
+#include <QtCore/QList>
 #include <QtCore/QString>
 
 class IdentifierManager
@@ -20,7 +21,6 @@ class IdentifierManager
 
     bool hasVariableIdentifier( const QString &name ) const;
     bool hasConstIdentifier( const QString &name ) const;
-    bool hasAnonymousConstIdentifier( int value ) const;
     bool hasProcedureIdentifier( const QString &name ) const;
 
     bool hasLocalVariableIdentifier( const QString &name ) const;
@@ -28,6 +28,16 @@ class IdentifierManager
     bool hasLocalProcedureIdentifier( const QString &name ) const;
 
     int procedureIndex( const QString &name ) const;
+    int constIndex( const QString &name ) const;
+    int constIndex( int value ) const;
+
+    enum VariableType
+    {
+      Local,
+      Main,
+      Global
+    };
+    void getVariableAddress( const QString &name, VariableType &type, int &address, int &procedureIndex ) const;
 
   private:
     class IdentifierBase;
@@ -41,7 +51,7 @@ class IdentifierManager
     ProcedureIdentifier *mMainProcedure;
     ProcedureIdentifier *mCurrentProcedure;
     int mProcedureCounter;
-    int mConstIdentifierCounter;
+    QList<int> mConstIdentifierValues;
     QString mCurrentName;
     int mCurrentValue;
 };

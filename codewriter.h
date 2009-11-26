@@ -28,7 +28,7 @@ class CodeWriter
       // omit CompareNotEqual
       CompareLessThan = 18,
       CompareGreaterThan = 19,
-      CompareLessEqual = 20,
+      CompareLessThanEqual = 20,
       CompareGreaterThanEqual = 21,
       Call = 22,
       ReturnProc = 23,
@@ -40,6 +40,7 @@ class CodeWriter
     CodeWriter( QIODevice *device );
     ~CodeWriter();
 
+    void writeOperation( OpCode code );
     void writeOperation( OpCode code, short arg );
     void writeOperation( OpCode code, short arg1, short arg2 );
     void writeOperation( OpCode code, short arg1, short arg2, short arg3 );

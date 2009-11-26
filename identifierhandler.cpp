@@ -111,11 +111,10 @@ bool IdentifierHandler::actionStatementState20()
 
 bool IdentifierHandler::actionFactorState0()
 {
-  if ( !mManager->hasAnonymousConstIdentifier( currentToken().numericValue() ) ) {
-    mManager->setName( QString() );
-    mManager->setValue( currentToken().numericValue() );
-    mManager->pushConstIdentifier();
-  }
+  // push the numeric literal as anonymous const identifier
+  mManager->setName( QString() );
+  mManager->setValue( currentToken().numericValue() );
+  mManager->pushConstIdentifier();
 
   return true;
 }
