@@ -40,6 +40,7 @@ class Token
       DoSymbol,
       OddSymbol,
       EqualsSymbol,
+      UnequalSymbol,
       AssignSymbol,
       LessThanSymbol,
       LessThanEqualSymbol,

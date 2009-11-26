@@ -39,7 +39,7 @@ StateTableEntry s_stateTable[6][8] = {
 int s_inputMap[] = {
 /* 0x00 */ -1, -2, -2, -2, -2, -2, -2, -2, -2, -2,  7, -2, -2,  7, -2, -2,
 /* 0x10 */ -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
-/* 0x20 */  7,  0, -2, -2, -2, -2, -2, -2,  0,  0,  0,  0,  0,  0,  0,  0,
+/* 0x20 */  7,  0, -2,  0, -2, -2, -2, -2,  0,  0,  0,  0,  0,  0,  0,  0,
 /* 0x30 */  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  3,  0,  5,  4,  6,  0,
 /* 0x40 */ -2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,
 /* 0x50 */  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, -2, -2, -2, -2, -2,
@@ -104,6 +104,7 @@ void Tokenizer::operationFinish( char character )
         case '(': mCurrentToken.setSymbolValue( Token::OpenBracketSymbol ); break;
         case ')': mCurrentToken.setSymbolValue( Token::CloseBracketSymbol ); break;
         case '=': mCurrentToken.setSymbolValue( Token::EqualsSymbol ); break;
+        case '#': mCurrentToken.setSymbolValue( Token::UnequalSymbol ); break;
       }
       break;
     case 1:

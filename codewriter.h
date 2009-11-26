@@ -25,7 +25,7 @@ class CodeWriter
       Mul = 14,
       Div = 15,
       CompareEqual = 16,
-      // omit CompareNotEqual
+      CompareNotEqual = 17,
       CompareLessThan = 18,
       CompareGreaterThan = 19,
       CompareLessThanEqual = 20,

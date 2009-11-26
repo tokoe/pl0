@@ -77,6 +77,8 @@ class CodeGenerationHandler : public HandlerBase
     virtual bool actionConditionState7();
     // COMP IDENTIFIER
     virtual bool actionConditionState8();
+    // COMP IDENTIFIER
+    virtual bool actionConditionState9();
 
   private:
     IdentifierManager *mManager;

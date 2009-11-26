@@ -28,7 +28,7 @@ int main( int argc, char **argv )
 
 #ifdef TOKENIZER
   Tokenizer tokenizer;
-  tokenizer.load(&file);
+  tokenizer.load(&inputFile);
 
   Token token = tokenizer.nextToken();
   while (token.type() != Token::EndToken) {

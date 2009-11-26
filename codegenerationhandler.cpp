@@ -194,6 +194,7 @@ bool CodeGenerationHandler::actionConditionState4()
 {
   switch( mComparisonSymbol ) {
     case Token::EqualsSymbol: mWriter->writeOperation( CodeWriter::CompareEqual ); break;
+    case Token::UnequalSymbol: mWriter->writeOperation( CodeWriter::CompareNotEqual ); break;
     case Token::LessThanSymbol: mWriter->writeOperation( CodeWriter::CompareLessThan ); break;
     case Token::GreaterThanSymbol: mWriter->writeOperation( CodeWriter::CompareGreaterThan ); break;
     case Token::LessThanEqualSymbol: mWriter->writeOperation( CodeWriter::CompareLessThanEqual ); break;
@@ -206,26 +207,33 @@ bool CodeGenerationHandler::actionConditionState4()
 // COMP IDENTIFIER
 bool CodeGenerationHandler::actionConditionState5()
 {
-  mComparisonSymbol = Token::LessThanSymbol;
+  mComparisonSymbol = Token::UnequalSymbol;
   return true;
 }
 
 // COMP IDENTIFIER
 bool CodeGenerationHandler::actionConditionState6()
 {
-  mComparisonSymbol = Token::LessThanEqualSymbol;
+  mComparisonSymbol = Token::LessThanSymbol;
   return true;
 }
 
 // COMP IDENTIFIER
 bool CodeGenerationHandler::actionConditionState7()
 {
-  mComparisonSymbol = Token::GreaterThanSymbol;
+  mComparisonSymbol = Token::LessThanEqualSymbol;
   return true;
 }
 
 // COMP IDENTIFIER
 bool CodeGenerationHandler::actionConditionState8()
+{
+  mComparisonSymbol = Token::GreaterThanSymbol;
+  return true;
+}
+
+// COMP IDENTIFIER
+bool CodeGenerationHandler::actionConditionState9()
 {
   mComparisonSymbol = Token::GreaterThanEqualSymbol;
   return true;

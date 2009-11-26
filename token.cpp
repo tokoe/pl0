@@ -102,8 +102,9 @@ QString Token::symbolName( SymbolType symbol )
     case Token::WhileSymbol: return "WHILE"; break;
     case Token::DoSymbol: return "DO"; break;
     case Token::OddSymbol: return "ODD"; break;
-    case Token::EqualsSymbol: return "EQUALS"; break;
-    case Token::AssignSymbol: return "ASSIGN"; break;
+    case Token::EqualsSymbol: return "= (EQUALS)"; break;
+    case Token::UnequalSymbol: return "#"; break;
+    case Token::AssignSymbol: return "= (ASSIGN)"; break;
     case Token::LessThanSymbol: return "<"; break;
     case Token::LessThanEqualSymbol: return "<="; break;
     case Token::GreaterThanSymbol: return ">"; break;

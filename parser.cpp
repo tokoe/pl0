@@ -191,15 +191,16 @@ Transition s_Factor[] = {
 
 Transition s_Condition[] = {
  /* 0*/ { SymbolTransition,  {(unsigned long)Token::OddSymbol},              1,  2, HandlerBase::ActionConditionState0 },
- /* 1*/ { GraphTransition,   {(unsigned long)3},                             9, -1, HandlerBase::ActionConditionState1 },
+ /* 1*/ { GraphTransition,   {(unsigned long)3},                            10, -1, HandlerBase::ActionConditionState1 },
  /* 2*/ { GraphTransition,   {(unsigned long)3},                             3, -1, HandlerBase::ActionConditionState2 },
  /* 3*/ { SymbolTransition,  {(unsigned long)Token::EqualsSymbol},           4,  5, HandlerBase::ActionConditionState3 },
- /* 4*/ { GraphTransition,   {(unsigned long)3},                             9, -1, HandlerBase::ActionConditionState4 },
- /* 5*/ { SymbolTransition,  {(unsigned long)Token::LessThanSymbol},         4,  6, HandlerBase::ActionConditionState5 },
- /* 6*/ { SymbolTransition,  {(unsigned long)Token::LessThanEqualSymbol},    4,  7, HandlerBase::ActionConditionState6 },
- /* 7*/ { SymbolTransition,  {(unsigned long)Token::GreaterThanSymbol},      4,  8, HandlerBase::ActionConditionState7 },
- /* 8*/ { SymbolTransition,  {(unsigned long)Token::GreaterThanEqualSymbol}, 4, -1, HandlerBase::ActionConditionState8 },
- /* 9*/ { EndTransition,     {(unsigned long)0},                             0, -1, HandlerBase::ActionConditionState9 }
+ /* 4*/ { GraphTransition,   {(unsigned long)3},                            10, -1, HandlerBase::ActionConditionState4 },
+ /* 5*/ { SymbolTransition,  {(unsigned long)Token::UnequalSymbol},          4,  6, HandlerBase::ActionConditionState5 },
+ /* 6*/ { SymbolTransition,  {(unsigned long)Token::LessThanSymbol},         4,  7, HandlerBase::ActionConditionState6 },
+ /* 7*/ { SymbolTransition,  {(unsigned long)Token::LessThanEqualSymbol},    4,  8, HandlerBase::ActionConditionState7 },
+ /* 8*/ { SymbolTransition,  {(unsigned long)Token::GreaterThanSymbol},      4,  9, HandlerBase::ActionConditionState8 },
+ /* 9*/ { SymbolTransition,  {(unsigned long)Token::GreaterThanEqualSymbol}, 4, -1, HandlerBase::ActionConditionState9 },
+ /*10*/ { EndTransition,     {(unsigned long)0},                             0, -1, HandlerBase::ActionConditionState10 }
 };
 
 Transition* s_graphs[] = {

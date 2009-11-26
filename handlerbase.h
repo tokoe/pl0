@@ -96,6 +96,7 @@ class HandlerBase
       ActionConditionState7,
       ActionConditionState8,
       ActionConditionState9,
+      ActionConditionState10,
     };
 
     HandlerBase();
@@ -197,6 +198,7 @@ class HandlerBase
     virtual bool actionConditionState7();
     virtual bool actionConditionState8();
     virtual bool actionConditionState9();
+    virtual bool actionConditionState10();
 
   private:
     Token mCurrentToken;    

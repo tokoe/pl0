@@ -111,6 +111,8 @@ bool HandlerBase::executeAction( ActionType type )
     case ActionConditionState7: return actionConditionState7(); break;
     case ActionConditionState8: return actionConditionState8(); break;
     case ActionConditionState9: return actionConditionState9(); break;
+    case ActionConditionState10: return actionConditionState10(); break;
+    default: Q_ASSERT(false); break;
   }
 
   return false;
@@ -517,6 +519,11 @@ bool HandlerBase::actionConditionState8()
 }
 
 bool HandlerBase::actionConditionState9()
+{
+  return true;
+}
+
+bool HandlerBase::actionConditionState10()
 {
   return true;
 }
