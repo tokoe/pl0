@@ -1,0 +1,5 @@
+*Makefile
+pl0
+*.moc
+*.o
+utests/utests

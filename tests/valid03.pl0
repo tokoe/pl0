@@ -1,0 +1,11 @@
+var a,b;
+procedure p1;
+begin
+  b:=10+a*b
+end;
+begin
+  ?a;?b;
+  call p1;
+  !b
+end.
+
