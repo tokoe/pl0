@@ -112,7 +112,7 @@ Transition s_Block[] = {
  /* 2*/ { SymbolTransition,  {(unsigned long)Token::EqualsSymbol},     3, -1, HandlerBase::ActionBlockState2 },
  /* 3*/ { MorphemTransition, {(unsigned long)Token::NumericToken},     4, -1, HandlerBase::ActionBlockState3 },
  /* 4*/ { SymbolTransition,  {(unsigned long)Token::SemicolonSymbol},  6,  5, HandlerBase::ActionBlockState4 },
- /* 5*/ { NilTransition,     {(unsigned long)0},                       1, -1, HandlerBase::ActionBlockState5 },
+ /* 5*/ { SymbolTransition,  {(unsigned long)Token::CommaSymbol},      1, -1, HandlerBase::ActionBlockState5 },
  /* 6*/ { NilTransition,     {(unsigned long)0},                       8, -1, HandlerBase::ActionBlockState6 },
  /* 7*/ { NilTransition,     {(unsigned long)0},                       8, -1, HandlerBase::ActionBlockState7 },
  /* 8*/ { SymbolTransition,  {(unsigned long)Token::VarSymbol},        9, 13, HandlerBase::ActionBlockState8 },
