@@ -12,18 +12,46 @@ CodeGenerationHandler::CodeGenerationHandler( IdentifierManager *manager, CodeWr
 // END_OF_PROGRAM
 bool CodeGenerationHandler::actionProgramState1()
 {
+  mWriter->writeOperation( CodeWriter::ReturnProc );
+
+  const qint64 currentPosition = mWriter->currentPosition();
+  const qint64 procedureBeginPosition = mWriter->popLabel();
+  const qint64 codeSize = currentPosition - procedureBeginPosition;
+
+  mWriter->writeOperationAtPosition( procedureBeginPosition, CodeWriter::EntryProc, codeSize );
+
+  mWriter->writeAtPosition( 0, mManager->procedureCount() );
+
+  const QList<int> constIdentifierValues = mManager->constIdentifierValues();
+  for ( int i = 0; i < constIdentifierValues.count(); ++i ) {
+    mWriter->write( constIdentifierValues.at( i ) );
+    //FIXME: writing int?!?
+    mWriter->write( 0 );
+  }
+
   return true;
 }
 
 // END_OF_PROCEDURE
 bool CodeGenerationHandler::actionBlockState18()
 {
+  mWriter->writeOperation( CodeWriter::ReturnProc );
+
+  const qint64 currentPosition = mWriter->currentPosition();
+  const qint64 procedureBeginPosition = mWriter->popLabel();
+  const qint64 codeSize = currentPosition - procedureBeginPosition;
+
+  mWriter->writeOperationAtPosition( procedureBeginPosition, CodeWriter::EntryProc, codeSize );
+
   return true;
 }
 
 // BEGIN_OF_STATEMENTS
 bool CodeGenerationHandler::actionBlockState20()
 {
+  mWriter->pushLabel( mWriter->currentPosition() );
+  mWriter->writeOperation( CodeWriter::EntryProc, 0, mManager->currentProcedureIndex(), mManager->currentProcedureVariableSize() );
+
   return true;
 }
 

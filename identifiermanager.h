@@ -31,6 +31,13 @@ class IdentifierManager
     int constIndex( const QString &name ) const;
     int constIndex( int value ) const;
 
+    int currentProcedureIndex() const;
+    int currentProcedureVariableSize() const;
+
+    int procedureCount() const;
+
+    QList<int> constIdentifierValues() const;
+
     enum VariableType
     {
       Local,

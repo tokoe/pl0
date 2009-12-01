@@ -130,6 +130,11 @@ class IdentifierManager::ProcedureIdentifier : public IdentifierManager::Identif
       return mIndex;
     }
 
+    inline int variableSize() const
+    {
+      return mVariableAddressCounter;
+    }
+
   private:
     int mIndex;
     int mVariableAddressCounter;
@@ -259,6 +264,26 @@ int IdentifierManager::constIndex( const QString &name ) const
 int IdentifierManager::constIndex( int value ) const
 {
   return mConstIdentifierValues.indexOf( value );
+}
+
+int IdentifierManager::currentProcedureIndex() const
+{
+  return mCurrentProcedure->index();
+}
+
+int IdentifierManager::currentProcedureVariableSize() const
+{
+  return mCurrentProcedure->variableSize();
+}
+
+int IdentifierManager::procedureCount() const
+{
+  return mProcedureCounter;
+}
+
+QList<int> IdentifierManager::constIdentifierValues() const
+{
+  return mConstIdentifierValues;
 }
 
 void IdentifierManager::getVariableAddress( const QString &name, VariableType &type, int &variableAddress, int &procedureIndex ) const

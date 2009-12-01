@@ -1,6 +1,8 @@
 #ifndef CODEWRITER_H
 #define CODEWRITER_H
 
+#include <QtCore/QStack>
+
 class QIODevice;
 
 class CodeWriter
@@ -45,8 +47,22 @@ class CodeWriter
     void writeOperation( OpCode code, short arg1, short arg2 );
     void writeOperation( OpCode code, short arg1, short arg2, short arg3 );
 
+    void writeOperationAtPosition( qint64 position, OpCode code );
+    void writeOperationAtPosition( qint64 position, OpCode code, short arg );
+    void writeOperationAtPosition( qint64 position, OpCode code, short arg1, short arg2 );
+    void writeOperationAtPosition( qint64 position, OpCode code, short arg1, short arg2, short arg3 );
+
+    void write( short arg );
+    void writeAtPosition( qint64 position, short arg );
+
+    qint64 currentPosition() const;
+
+    void pushLabel( qint64 position );
+    qint64 popLabel();
+
   private:
     QIODevice *mDevice;
+    QStack<qint64> mLabels;
 };
 
 #endif
