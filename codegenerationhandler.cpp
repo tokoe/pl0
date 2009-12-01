@@ -110,18 +110,37 @@ bool CodeGenerationHandler::actionStatementState6()
 // WHILE
 bool CodeGenerationHandler::actionStatementState7()
 {
+  // push while label
+  mWriter->pushLabel( mWriter->currentPosition() );
+
   return true;
 }
 
 // CONDITION
 bool CodeGenerationHandler::actionStatementState8()
 {
+  // push jump not label
+  mWriter->pushLabel( mWriter->currentPosition() );
+  mWriter->writeOperation( CodeWriter::JumpNot, 0 );
+
   return true;
 }
 
 // STATEMENT
 bool CodeGenerationHandler::actionStatementState10()
 {
+  qint64 currentPosition = mWriter->currentPosition();
+  const qint64 jumpNotPosition = mWriter->popLabel();
+  const qint64 jumpOffset = currentPosition - jumpNotPosition;
+
+  mWriter->writeOperationAtPosition( jumpNotPosition, CodeWriter::JumpNot, jumpOffset );
+ 
+  currentPosition = mWriter->currentPosition();
+  const qint64 whileLabelPosition = mWriter->popLabel();
+  const qint64 jumpBackOffset = -(currentPosition - whileLabelPosition + 3);
+
+  mWriter->writeOperation( CodeWriter::Jump, jumpBackOffset );
+
   return true;
 }
 
