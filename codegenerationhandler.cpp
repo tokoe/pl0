@@ -89,12 +89,21 @@ bool CodeGenerationHandler::actionStatementState2()
 // CONDITION
 bool CodeGenerationHandler::actionStatementState4()
 {
+  mWriter->pushLabel( mWriter->currentPosition() );
+  mWriter->writeOperation( CodeWriter::JumpNot, 0 );
+
   return true;
 }
 
 // STATEMENT
 bool CodeGenerationHandler::actionStatementState6()
 {
+  const qint64 currentPosition = mWriter->currentPosition();
+  const qint64 jumpNotPosition = mWriter->popLabel();
+  const qint64 jumpOffset = currentPosition - jumpNotPosition - 3;
+
+  mWriter->writeOperationAtPosition( jumpNotPosition, CodeWriter::JumpNot, jumpOffset );
+
   return true;
 }
 
