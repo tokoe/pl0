@@ -223,14 +223,14 @@ bool CodeGenerationHandler::actionExpressionState7()
 }
 
 // MUL FACTOR
-bool CodeGenerationHandler::actionTermState2()
+bool CodeGenerationHandler::actionTermState3()
 {
   mWriter->writeOperation( CodeWriter::Mul );
   return true;
 }
 
 // DIV FACTOR
-bool CodeGenerationHandler::actionTermState4()
+bool CodeGenerationHandler::actionTermState5()
 {
   mWriter->writeOperation( CodeWriter::Div );
   return true;

@@ -54,9 +54,9 @@ class CodeGenerationHandler : public HandlerBase
     virtual bool actionExpressionState7();
 
     // MUL FACTOR
-    virtual bool actionTermState2();
+    virtual bool actionTermState3();
     // DIV FACTOR
-    virtual bool actionTermState4();
+    virtual bool actionTermState5();
 
     // PUSH NUMERIC
     virtual bool actionFactorState0();
