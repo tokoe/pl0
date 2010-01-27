@@ -276,6 +276,14 @@ JavaClass::~JavaClass()
   qDeleteAll( mAttributes );
 }
 
+quint16 JavaClass::addConst( ConstPoolEntry *entry )
+{
+  const quint16 index = mConstPool.count() + 1;
+  mConstPool.append( entry );
+
+  return index;
+}
+
 void JavaClass::writeShort( QIODevice *device, quint16 value )
 {
   device->putChar( (unsigned char)(value >> 8) );
@@ -292,6 +300,20 @@ void JavaClass::writeInt( QIODevice *device, quint32 value )
 
 void JavaClass::write( QIODevice *device )
 {
+  // initialize encapsulation class
+
+  const quint16 thisClassNameIndex = addConst( new Utf8ConstPoolEntry( "PL0" ) );
+  const quint16 superClassNameIndex = addConst( new Utf8ConstPoolEntry( "java/lang/Object" ) );
+  const quint16 thisClassIndex = addConst( new ClassConstPoolEntry( thisClassNameIndex ) );
+  const quint16 superClassIndex = addConst( new ClassConstPoolEntry( superClassNameIndex ) );
+
+  const quint16 initNameIndex = addConst( new Utf8ConstPoolEntry( "<init>" ) );
+  const quint16 initDescriptorIndex = addConst( new Utf8ConstPoolEntry( "()V" ) );
+
+  const quint16 codeAttributeNameIndex = addConst( new Utf8ConstPoolEntry( "Code" ) );
+  const quint16 mainNameIndex = addConst( new Utf8ConstPoolEntry( "main" ) );
+  const quint16 mainArgDescription = addConst( new Utf8ConstPoolEntry( "([Ljava/lang/String;)V" ) );
+
   // write magic code
   device->putChar( 0xCA );
   device->putChar( 0xFE );
@@ -314,13 +336,13 @@ void JavaClass::write( QIODevice *device )
 
   // write access flags
   device->putChar( 0x00 );
-  device->putChar( 0x01 ); // is public
+  device->putChar( 0x21 ); // super | public
 
   // write this class index
-  JavaClass::writeShort( device, 0x0000 ); //TODO: write actual index of matching ConstPoolEntry::Class
+  JavaClass::writeShort( device, thisClassIndex );
 
   // write super class index
-  JavaClass::writeShort( device, 0x0000 ); //TODO: write actual index of matching ConstPoolEntry::Class
+  JavaClass::writeShort( device, superClassIndex );
 
   // write interface count (always 0 for us)
   JavaClass::writeShort( device, 0x0000 );

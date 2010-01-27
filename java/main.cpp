@@ -4,7 +4,7 @@
 
 int main()
 {
-  QFile file( "test.class" );
+  QFile file( "PL0.class" );
   file.open( QIODevice::WriteOnly );
 
   JavaClass jc;

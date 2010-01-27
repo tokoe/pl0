@@ -221,6 +221,8 @@ class JavaClass
     JavaClass();
     ~JavaClass();
 
+    quint16 addConst( ConstPoolEntry *entry );
+
     void write( QIODevice *device );
 
     static void writeShort( QIODevice *device, quint16 value );
