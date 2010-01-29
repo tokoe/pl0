@@ -335,3 +335,16 @@ bool CodeGenerationHandler::actionConditionState9()
   return true;
 }
 
+// OP AND
+bool CodeGenerationHandler::actionConditionsState3()
+{
+  mWriter->writeOperation( CodeWriter::Mul );
+  return true;
+}
+
+//OP OR
+bool CodeGenerationHandler::actionConditionsState5()
+{
+  mWriter->writeOperation( CodeWriter::Add );
+  return true;
+}

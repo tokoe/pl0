@@ -80,6 +80,11 @@ class CodeGenerationHandler : public HandlerBase
     // COMP IDENTIFIER
     virtual bool actionConditionState9();
 
+    // OP AND
+    virtual bool actionConditionsState3();
+    // OP OR
+    virtual bool actionConditionsState5();
+
   private:
     IdentifierManager *mManager;
     CodeWriter *mWriter;

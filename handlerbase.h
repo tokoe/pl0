@@ -97,6 +97,16 @@ class HandlerBase
       ActionConditionState8,
       ActionConditionState9,
       ActionConditionState10,
+
+      ActionConditionsState0,
+      ActionConditionsState1,
+      ActionConditionsState2,
+      ActionConditionsState3,
+      ActionConditionsState4,
+      ActionConditionsState5,
+      ActionConditionsState6,
+      ActionConditionsState7,
+      ActionConditionsState8
     };
 
     HandlerBase();
@@ -199,6 +209,16 @@ class HandlerBase
     virtual bool actionConditionState8();
     virtual bool actionConditionState9();
     virtual bool actionConditionState10();
+
+    virtual bool actionConditionsState0();
+    virtual bool actionConditionsState1();
+    virtual bool actionConditionsState2();
+    virtual bool actionConditionsState3();
+    virtual bool actionConditionsState4();
+    virtual bool actionConditionsState5();
+    virtual bool actionConditionsState6();
+    virtual bool actionConditionsState7();
+    virtual bool actionConditionsState8();
 
   private:
     Token mCurrentToken;    
