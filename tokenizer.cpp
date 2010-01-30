@@ -119,6 +119,7 @@ void Tokenizer::operationFinish( char character )
           map.insert( "END", Token::EndSymbol );
           map.insert( "IF", Token::IfSymbol );
           map.insert( "THEN", Token::ThenSymbol );
+          map.insert( "ELSE", Token::ElseSymbol );
           map.insert( "WHILE", Token::WhileSymbol );
           map.insert( "DO", Token::DoSymbol );
           map.insert( "ODD", Token::OddSymbol );

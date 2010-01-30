@@ -25,10 +25,14 @@ class CodeGenerationHandler : public HandlerBase
     virtual bool actionStatementState0();
     // EXPRESSION
     virtual bool actionStatementState2();
-    // CONDITION
+    // CONDITION AFTER IF
     virtual bool actionStatementState4();
-    // STATEMENT
-    virtual bool actionStatementState6();
+    // STATEMENT AFTER THEN
+    virtual bool actionStatementState23();
+    // ELSE
+    virtual bool actionStatementState24();
+    // STATEMENT AFTER ELSE
+    virtual bool actionStatementState25();
     // WHILE
     virtual bool actionStatementState7();
     // CONDITION

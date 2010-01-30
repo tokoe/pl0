@@ -60,6 +60,9 @@ class HandlerBase
       ActionStatementState20,
       ActionStatementState21,
       ActionStatementState22,
+      ActionStatementState23,
+      ActionStatementState24,
+      ActionStatementState25,
 
       ActionExpressionState0,
       ActionExpressionState1,
@@ -162,6 +165,9 @@ class HandlerBase
     virtual bool actionStatementState20();
     virtual bool actionStatementState21();
     virtual bool actionStatementState22();
+    virtual bool actionStatementState23();
+    virtual bool actionStatementState24();
+    virtual bool actionStatementState25();
 
     virtual bool actionExpressionState0();
     virtual bool actionExpressionState1();

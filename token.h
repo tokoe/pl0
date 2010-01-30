@@ -36,6 +36,7 @@ class Token
       EndSymbol,
       IfSymbol,
       ThenSymbol,
+      ElseSymbol,
       WhileSymbol,
       DoSymbol,
       OddSymbol,

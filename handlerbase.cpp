@@ -79,6 +79,9 @@ bool HandlerBase::executeAction( ActionType type )
     case ActionStatementState20: return actionStatementState20(); break;
     case ActionStatementState21: return actionStatementState21(); break;
     case ActionStatementState22: return actionStatementState22(); break;
+    case ActionStatementState23: return actionStatementState23(); break;
+    case ActionStatementState24: return actionStatementState24(); break;
+    case ActionStatementState25: return actionStatementState25(); break;
     case ActionExpressionState0: return actionExpressionState0(); break;
     case ActionExpressionState1: return actionExpressionState1(); break;
     case ActionExpressionState2: return actionExpressionState2(); break;
@@ -359,6 +362,21 @@ bool HandlerBase::actionStatementState21()
 }
 
 bool HandlerBase::actionStatementState22()
+{
+  return true;
+}
+
+bool HandlerBase::actionStatementState23()
+{
+  return true;
+}
+
+bool HandlerBase::actionStatementState24()
+{
+  return true;
+}
+
+bool HandlerBase::actionStatementState25()
 {
   return true;
 }

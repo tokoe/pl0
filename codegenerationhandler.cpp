@@ -86,7 +86,7 @@ bool CodeGenerationHandler::actionStatementState2()
   return true;
 }
 
-// CONDITION
+// CONDITION AFTER IF
 bool CodeGenerationHandler::actionStatementState4()
 {
   mWriter->pushLabel( mWriter->currentPosition() );
@@ -95,14 +95,42 @@ bool CodeGenerationHandler::actionStatementState4()
   return true;
 }
 
-// STATEMENT
-bool CodeGenerationHandler::actionStatementState6()
+// STATEMENT AFTER THEN
+bool CodeGenerationHandler::actionStatementState23()
 {
   const qint64 currentPosition = mWriter->currentPosition();
   const qint64 jumpNotPosition = mWriter->popLabel();
   const qint64 jumpOffset = currentPosition - jumpNotPosition - 3;
 
   mWriter->writeOperationAtPosition( jumpNotPosition, CodeWriter::JumpNot, jumpOffset );
+
+  return true;
+}
+
+// ELSE
+bool CodeGenerationHandler::actionStatementState24()
+{
+  const qint64 jumpNotPosition = mWriter->popLabel();
+
+  mWriter->pushLabel( mWriter->currentPosition() );
+  mWriter->writeOperation( CodeWriter::Jump, 0 );
+
+  const qint64 currentPosition = mWriter->currentPosition();
+  const qint64 jumpOffset = currentPosition - jumpNotPosition - 3;
+
+  mWriter->writeOperationAtPosition( jumpNotPosition, CodeWriter::JumpNot, jumpOffset );
+
+  return true;
+}
+
+// STATEMENT AFTER ELSE
+bool CodeGenerationHandler::actionStatementState25()
+{
+  const qint64 currentPosition = mWriter->currentPosition();
+  const qint64 jumpNotPosition = mWriter->popLabel();
+  const qint64 jumpOffset = currentPosition - jumpNotPosition - 3;
+
+  mWriter->writeOperationAtPosition( jumpNotPosition, CodeWriter::Jump, jumpOffset );
 
   return true;
 }

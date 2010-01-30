@@ -139,7 +139,7 @@ Transition s_Statement[] = {
  /* 3*/ { SymbolTransition,  {(unsigned long)Token::IfSymbol},         4,  7, HandlerBase::ActionStatementState3 },
  /* 4*/ { GraphTransition,   {(unsigned long)6},                       5, -1, HandlerBase::ActionStatementState4 },
  /* 5*/ { SymbolTransition,  {(unsigned long)Token::ThenSymbol},       6, -1, HandlerBase::ActionStatementState5 },
- /* 6*/ { GraphTransition,   {(unsigned long)2},                      22, -1, HandlerBase::ActionStatementState6 },
+ /* 6*/ { GraphTransition,   {(unsigned long)2},                      24, -1, HandlerBase::ActionStatementState6 },
  /* 7*/ { SymbolTransition,  {(unsigned long)Token::WhileSymbol},      8, 11, HandlerBase::ActionStatementState7 },
  /* 8*/ { GraphTransition,   {(unsigned long)6},                       9, -1, HandlerBase::ActionStatementState8 },
  /* 9*/ { SymbolTransition,  {(unsigned long)Token::DoSymbol},        10, -1, HandlerBase::ActionStatementState9 },
@@ -155,7 +155,10 @@ Transition s_Statement[] = {
  /*19*/ { SymbolTransition,  {(unsigned long)Token::OutputSymbol},    20, 21, HandlerBase::ActionStatementState19 },
  /*20*/ { GraphTransition,   {(unsigned long)3},                      22, -1, HandlerBase::ActionStatementState20 },
  /*21*/ { NilTransition,     {(unsigned long)0},                      22, -1, HandlerBase::ActionStatementState21 },
- /*22*/ { EndTransition,     {(unsigned long)0},                       0, -1, HandlerBase::ActionStatementState22 }
+ /*22*/ { EndTransition,     {(unsigned long)0},                       0, -1, HandlerBase::ActionStatementState22 },
+ /*23*/ { NilTransition,     {(unsigned long)0},                      22, -1, HandlerBase::ActionStatementState23 },
+ /*24*/ { SymbolTransition,  {(unsigned long)Token::ElseSymbol},      25, 23, HandlerBase::ActionStatementState24 },
+ /*25*/ { GraphTransition,   {(unsigned long)2},                      22, -1, HandlerBase::ActionStatementState25 }
 };
 
 Transition s_Expression[] = {

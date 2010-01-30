@@ -99,6 +99,7 @@ QString Token::symbolName( SymbolType symbol )
     case Token::EndSymbol: return "END"; break;
     case Token::IfSymbol: return "IF"; break;
     case Token::ThenSymbol: return "THEN"; break;
+    case Token::ElseSymbol: return "ELSE"; break;
     case Token::WhileSymbol: return "WHILE"; break;
     case Token::DoSymbol: return "DO"; break;
     case Token::OddSymbol: return "ODD"; break;
