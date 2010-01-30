@@ -112,7 +112,16 @@ bool HandlerBase::executeAction( ActionType type )
     case ActionConditionState8: return actionConditionState8(); break;
     case ActionConditionState9: return actionConditionState9(); break;
     case ActionConditionState10: return actionConditionState10(); break;
-    default: Q_ASSERT(false); break;
+    case ActionConditionsState0: return actionConditionsState0(); break;
+    case ActionConditionsState1: return actionConditionsState1(); break;
+    case ActionConditionsState2: return actionConditionsState2(); break;
+    case ActionConditionsState3: return actionConditionsState3(); break;
+    case ActionConditionsState4: return actionConditionsState4(); break;
+    case ActionConditionsState5: return actionConditionsState5(); break;
+    case ActionConditionsState6: return actionConditionsState6(); break;
+    case ActionConditionsState7: return actionConditionsState7(); break;
+    case ActionConditionsState8: return actionConditionsState8(); break;
+    default: qDebug("HandlerBase: calling unknown state"); Q_ASSERT(false); break;
   }
 
   return false;
@@ -527,3 +536,49 @@ bool HandlerBase::actionConditionState10()
 {
   return true;
 }
+
+bool HandlerBase::actionConditionsState0()
+{
+  return true;
+}
+
+bool HandlerBase::actionConditionsState1()
+{
+  return true;
+}
+
+bool HandlerBase::actionConditionsState2()
+{
+  return true;
+}
+
+bool HandlerBase::actionConditionsState3()
+{
+  return true;
+}
+
+bool HandlerBase::actionConditionsState4()
+{
+  return true;
+}
+
+bool HandlerBase::actionConditionsState5()
+{
+  return true;
+}
+
+bool HandlerBase::actionConditionsState6()
+{
+  return true;
+}
+
+bool HandlerBase::actionConditionsState7()
+{
+  return true;
+}
+
+bool HandlerBase::actionConditionsState8()
+{
+  return true;
+}
+

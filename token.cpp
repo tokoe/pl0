@@ -109,6 +109,8 @@ QString Token::symbolName( SymbolType symbol )
     case Token::LessThanEqualSymbol: return "<="; break;
     case Token::GreaterThanSymbol: return ">"; break;
     case Token::GreaterThanEqualSymbol: return ">="; break;
+    case Token::AndSymbol: return "AND"; break;
+    case Token::OrSymbol: return "OR"; break;
     default: return QString(); break;
   }
 }

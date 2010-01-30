@@ -39,7 +39,7 @@ static void graphToDot( Transition *transition, const QString &graphName, const 
 {
   const QStringList graphNames = QStringList() << "[program]" << "[block]"
                                                << "[statement]" << "[expression]"
-                                               << "[term]" << "[factor]" << "[condition]";
+                                               << "[term]" << "[factor]" << "[condition]" << "[conditions]";
   QByteArray data;
   QTextStream s( &data );
 
@@ -137,11 +137,11 @@ Transition s_Statement[] = {
  /* 1*/ { SymbolTransition,  {(unsigned long)Token::AssignSymbol},     2, -1, HandlerBase::ActionStatementState1 },
  /* 2*/ { GraphTransition,   {(unsigned long)3},                      22, -1, HandlerBase::ActionStatementState2 },
  /* 3*/ { SymbolTransition,  {(unsigned long)Token::IfSymbol},         4,  7, HandlerBase::ActionStatementState3 },
- /* 4*/ { GraphTransition,   {(unsigned long)6},                       5, -1, HandlerBase::ActionStatementState4 },
+ /* 4*/ { GraphTransition,   {(unsigned long)7},                       5, -1, HandlerBase::ActionStatementState4 },
  /* 5*/ { SymbolTransition,  {(unsigned long)Token::ThenSymbol},       6, -1, HandlerBase::ActionStatementState5 },
  /* 6*/ { GraphTransition,   {(unsigned long)2},                      22, -1, HandlerBase::ActionStatementState6 },
  /* 7*/ { SymbolTransition,  {(unsigned long)Token::WhileSymbol},      8, 11, HandlerBase::ActionStatementState7 },
- /* 8*/ { GraphTransition,   {(unsigned long)6},                       9, -1, HandlerBase::ActionStatementState8 },
+ /* 8*/ { GraphTransition,   {(unsigned long)7},                       9, -1, HandlerBase::ActionStatementState8 },
  /* 9*/ { SymbolTransition,  {(unsigned long)Token::DoSymbol},        10, -1, HandlerBase::ActionStatementState9 },
  /*10*/ { GraphTransition,   {(unsigned long)2},                      22, -1, HandlerBase::ActionStatementState10 },
  /*11*/ { SymbolTransition,  {(unsigned long)Token::BeginSymbol},     12, 15, HandlerBase::ActionStatementState11 },
@@ -203,6 +203,18 @@ Transition s_Condition[] = {
  /*10*/ { EndTransition,     {(unsigned long)0},                             0, -1, HandlerBase::ActionConditionState10 }
 };
 
+Transition s_Conditions[] = {
+ /* 0*/ { GraphTransition,   {(unsigned long)6},                             1, -1, HandlerBase::ActionConditionsState0 },
+ /* 1*/ { SymbolTransition,  {(unsigned long)Token::AndSymbol},              3,  2, HandlerBase::ActionConditionsState1 },
+ /* 2*/ { SymbolTransition,  {(unsigned long)Token::OrSymbol},               5,  7, HandlerBase::ActionConditionsState2 },
+ /* 3*/ { GraphTransition,   {(unsigned long)6},                             4, -1, HandlerBase::ActionConditionsState3 },
+ /* 4*/ { SymbolTransition,  {(unsigned long)Token::AndSymbol},              3,  6, HandlerBase::ActionConditionsState4 },
+ /* 5*/ { GraphTransition,   {(unsigned long)6},                             4, -1, HandlerBase::ActionConditionsState5 },
+ /* 6*/ { SymbolTransition,  {(unsigned long)Token::OrSymbol},               5,  8, HandlerBase::ActionConditionsState6 },
+ /* 7*/ { NilTransition,     {(unsigned long)0},                             8, -1, HandlerBase::ActionConditionsState7 },
+ /* 8*/ { EndTransition,     {(unsigned long)0},                             0, -1, HandlerBase::ActionConditionsState8 },
+};
+
 Transition* s_graphs[] = {
   s_Program,
   s_Block,
@@ -210,7 +222,8 @@ Transition* s_graphs[] = {
   s_Expression,
   s_Term,
   s_Factor,
-  s_Condition
+  s_Condition,
+  s_Conditions
 };
 
 Parser::Parser()
@@ -232,6 +245,7 @@ void Parser::outputGraphs()
   graphToDot( s_Term,       "term",       "term" );
   graphToDot( s_Factor,     "factor",     "factor" );
   graphToDot( s_Condition,  "condition",  "condition" );
+  graphToDot( s_Conditions,  "conditions",  "conditions" );
 }
 
 void Parser::load( QIODevice *device )
@@ -273,6 +287,8 @@ bool Parser::parse( Transition *transition )
       qDebug() << "graph=factor";
     else if ( transition == s_Condition )
       qDebug() << "graph=condition";
+    else if ( transition == s_Conditions )
+      qDebug() << "graph=conditions";
     qDebug() << "transitionstate=" << transitionState;
 */
     if ( currentToken.type() == Token::ErrorToken )

@@ -122,6 +122,8 @@ void Tokenizer::operationFinish( char character )
           map.insert( "WHILE", Token::WhileSymbol );
           map.insert( "DO", Token::DoSymbol );
           map.insert( "ODD", Token::OddSymbol );
+          map.insert( "AND", Token::AndSymbol );
+          map.insert( "OR", Token::OrSymbol );
         }
 
         if ( map.contains( mOutputBuffer ) ) {
