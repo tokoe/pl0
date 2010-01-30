@@ -6,20 +6,24 @@
 typedef enum {
   InvalidInput = -2,
   SpecialInput = 0,
-  DigitInput = 1,
-  CharacterInput = 2,
-  ColonInput = 3,
-  EqualInput = 4,
-  LessThanInput = 5,
-  GreaterThanInput = 6,
-  SpaceInput = 7,
+  ZeroDigitInput = 1,
+  NonZeroDigitInput = 2,
+  XCharacterInput = 3,
+  HexCharacterInput = 4,
+  NonHexCharacterInput = 5,
+  ColonInput = 6,
+  EqualInput = 7,
+  LessThanInput = 8,
+  GreaterThanInput = 9,
+  SpaceInput = 10
 } InputType;
 
 typedef enum {
   Read = 1,
   Write = 2,
   WriteUpper = 4,
-  Finish = 8
+  Finish = 8,
+  Error = 16
 } ActionsType;
 
 typedef struct {
@@ -27,24 +31,28 @@ typedef struct {
   int state;
 } StateTableEntry;
 
-StateTableEntry s_stateTable[6][8] = {
-/*             Special                 Digit                Char                   Colon                 Equal                 LessThan            GreaterThan        Space */
-/* 0 */ { { Read|Write|Finish, 0 }, { Read|Write, 2 }, { Read|WriteUpper, 1 }, { Read|Write, 3 }, { Read|Write|Finish, 0 }, { Read|Write, 4 }, { Read|Write, 5 }, { Read, 0 } },
-/* 1 */ { { Finish, 0 },            { Read|Write, 1 }, { Read|WriteUpper, 1 }, { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
-/* 2 */ { { Finish, 0 },            { Read|Write, 2 }, { Finish, 0 },          { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
-/* 3 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
-/* 4 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
-/* 5 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 } } };
+StateTableEntry s_stateTable[9][12] = {
+/*             Special                 ZeroDigit          NonZeroDigit            XChar                   HexChar               NonHexChar             Colon                 Equal                 LessThan            GreaterThan        Space */
+/* 0 */ { { Read|Write|Finish, 0 }, { Read|Write, 6 }, { Read|Write, 2 }, { Read|WriteUpper, 1 }, { Read|WriteUpper, 1 }, { Read|WriteUpper, 1 }, { Read|Write, 3 }, { Read|Write|Finish, 0 }, { Read|Write, 4 }, { Read|Write, 5 }, { Read, 0 } },
+/* 1 */ { { Finish, 0 },            { Read|Write, 1 }, { Read|Write, 1 }, { Read|WriteUpper, 1 }, { Read|WriteUpper, 1 }, { Read|WriteUpper, 1 }, { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
+/* 2 */ { { Finish, 0 },            { Read|Write, 2 }, { Read|Write, 2 }, { Finish, 0 },          { Finish, 0 },          { Finish, 0 },          { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
+/* 3 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 },          { Finish, 0 },          { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
+/* 4 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 },          { Finish, 0 },          { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
+/* 5 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 },          { Finish, 0 },          { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
+/* 6 */ { { Finish, 0 },            { Read|Write, 2 }, { Read|Write, 2 }, { Read|Write, 7},       { Finish, 0 },          { Finish, 0 },          { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
+/* 7 */ { { Error, 0 },             { Read|Write, 8 }, { Read|Write, 8 }, { Error, 0 },           { Read|Write, 8 },      { Error, 0 },           { Error, 0 },      { Error, 0 },             { Error, 0 },      { Error, 0 },      { Error, 0 } },
+/* 8 */ { { Finish, 0 },            { Read|Write, 8 }, { Read|Write, 8 }, { Finish, 0 },          { Read|Write, 8 },      { Finish, 0 },          { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 } } };
 
 int s_inputMap[] = {
-/* 0x00 */ -1, -2, -2, -2, -2, -2, -2, -2, -2, -2,  7, -2, -2,  7, -2, -2,
+/*          0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F */
+/* 0x00 */ -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, 10, -2, -2, 10, -2, -2,
 /* 0x10 */ -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
-/* 0x20 */  7,  0, -2,  0, -2, -2, -2, -2,  0,  0,  0,  0,  0,  0,  0,  0,
-/* 0x30 */  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  3,  0,  5,  4,  6,  0,
-/* 0x40 */ -2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,
-/* 0x50 */  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, -2, -2, -2, -2, -2,
-/* 0x60 */ -2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,
-/* 0x70 */  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, -2, -2, -2, -2, -2 };
+/* 0x20 */ 10,  0, -2,  0, -2, -2, -2, -2,  0,  0,  0,  0,  0,  0,  0,  0,
+/* 0x30 */  1,  2,  2,  2,  2,  2,  2,  2,  2,  2,  6,  0,  8,  7,  9,  0,
+/* 0x40 */ -2,  4,  4,  4,  4,  4,  4,  5,  5,  5,  5,  5,  5,  5,  5,  5,
+/* 0x50 */  5,  5,  5,  5,  5,  5,  5,  5,  3,  5,  5, -2, -2, -2, -2, -2,
+/* 0x60 */ -2,  4,  4,  4,  4,  4,  4,  5,  5,  5,  5,  5,  5,  5,  5,  5,
+/* 0x70 */  5,  5,  5,  5,  5,  5,  5,  5,  3,  5,  5, -2, -2, -2, -2, -2 };
 
 
 Tokenizer::Tokenizer()
@@ -157,6 +165,16 @@ void Tokenizer::operationFinish( char character )
       else
         mCurrentToken.setSymbolValue( Token::GreaterThanSymbol );
       break;
+    case 6:
+      mCurrentToken = Token( Token::NumericToken, mCurrentRow, mCurrentColumn );
+      mCurrentToken.setNumericValue( mOutputBuffer.toInt() );
+      break;
+    case 7:
+      break;
+    case 8:
+      mCurrentToken = Token( Token::NumericToken, mCurrentRow, mCurrentColumn );
+      mCurrentToken.setNumericValue( mOutputBuffer.toInt( 0, 16 ) );
+      break;
     default:
       mCurrentToken = Token( Token::ErrorToken, mCurrentRow, mCurrentColumn );
       break; 
@@ -188,6 +206,10 @@ Token Tokenizer::nextToken()
       default:
         {
           const StateTableEntry entry = s_stateTable[ mCurrentState ][ characterClass ];
+
+          // ERROR operation
+          if ( entry.function & Error )
+            return Token( Token::ErrorToken, mCurrentRow, mCurrentColumn );
 
           // WRITE operation
           if ( entry.function & Write )
