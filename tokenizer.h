@@ -22,6 +22,7 @@ class Tokenizer
     void operationWriteUpper( char );
     void operationRead( char );
     void operationFinish( char );
+    void operationReset( char );
 
     QIODevice *mDevice;
     char mCurrentChar;

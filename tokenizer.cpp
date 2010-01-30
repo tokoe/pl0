@@ -13,13 +13,16 @@ typedef enum {
   LessThanInput = 5,
   GreaterThanInput = 6,
   SpaceInput = 7,
+  SlashInput = 8,
+  Asterisk = 9
 } InputType;
 
 typedef enum {
   Read = 1,
   Write = 2,
   WriteUpper = 4,
-  Finish = 8
+  Finish = 8,
+  Reset = 16
 } ActionsType;
 
 typedef struct {
@@ -27,19 +30,23 @@ typedef struct {
   int state;
 } StateTableEntry;
 
-StateTableEntry s_stateTable[6][8] = {
-/*             Special                 Digit                Char                   Colon                 Equal                 LessThan            GreaterThan        Space */
-/* 0 */ { { Read|Write|Finish, 0 }, { Read|Write, 2 }, { Read|WriteUpper, 1 }, { Read|Write, 3 }, { Read|Write|Finish, 0 }, { Read|Write, 4 }, { Read|Write, 5 }, { Read, 0 } },
-/* 1 */ { { Finish, 0 },            { Read|Write, 1 }, { Read|WriteUpper, 1 }, { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
-/* 2 */ { { Finish, 0 },            { Read|Write, 2 }, { Finish, 0 },          { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
-/* 3 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
-/* 4 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 } },
-/* 5 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 } } };
+StateTableEntry s_stateTable[9][10] = {
+/*             Special                 Digit                Char                   Colon                 Equal                 LessThan            GreaterThan        Space            '/'               '*'  */
+/* 0 */ { { Read|Write|Finish, 0 }, { Read|Write, 2 }, { Read|WriteUpper, 1 }, { Read|Write, 3 }, { Read|Write|Finish, 0 }, { Read|Write, 4 }, { Read|Write, 5 }, { Read, 0 },   { Read|Write, 6 }, { Read|Write|Finish, 0 } },
+/* 1 */ { { Finish, 0 },            { Read|Write, 1 }, { Read|WriteUpper, 1 }, { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 }, { Finish, 0 },     { Finish, 0 }     },
+/* 2 */ { { Finish, 0 },            { Read|Write, 2 }, { Finish, 0 },          { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 }, { Finish, 0 },     { Finish, 0 }     },
+/* 3 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 }, { Finish, 0 },     { Finish, 0 }     },
+/* 4 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 }, { Finish, 0 },     { Finish, 0 }     },
+/* 5 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Read|Write|Finish, 0 }, { Finish, 0 },     { Finish, 0 },     { Finish, 0 }, { Finish, 0 },     { Finish, 0 }     },
+/* 6 */ { { Finish, 0 },            { Finish, 0 },     { Finish, 0 },          { Finish, 0 },     { Finish, 0 },            { Finish, 0 },     { Finish, 0 },     { Finish, 0 }, { Finish, 0 },     { Read, 7 }       },
+/* 7 */ { { Read, 7 },              { Read, 7 },       { Read, 7 },            { Read, 7 },       { Read, 7 },              { Read, 7 },       { Read, 7 },       { Read, 7 },   { Read, 7 },       { Read, 8 }       },
+/* 8 */ { { Read, 7 },              { Read, 7 },       { Read, 7 },            { Read, 7 },       { Read, 7 },              { Read, 7 },       { Read, 7 },       { Read, 7 },   { Reset|Read, 0 },     { Read, 8 }       } };
 
 int s_inputMap[] = {
+/*          0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F */
 /* 0x00 */ -1, -2, -2, -2, -2, -2, -2, -2, -2, -2,  7, -2, -2,  7, -2, -2,
 /* 0x10 */ -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
-/* 0x20 */  7,  0, -2,  0, -2, -2, -2, -2,  0,  0,  0,  0,  0,  0,  0,  0,
+/* 0x20 */  7,  0, -2,  0, -2, -2, -2, -2,  0,  0,  9,  0,  0,  0,  0,  8,
 /* 0x30 */  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  3,  0,  5,  4,  6,  0,
 /* 0x40 */ -2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,
 /* 0x50 */  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, -2, -2, -2, -2, -2,
@@ -86,6 +93,11 @@ void Tokenizer::operationRead( char )
   }
 }
 
+void Tokenizer::operationReset( char )
+{
+  mOutputBuffer.clear();
+}
+
 void Tokenizer::operationFinish( char character )
 {
   switch ( mCurrentState ) {
@@ -100,7 +112,6 @@ void Tokenizer::operationFinish( char character )
         case '+': mCurrentToken.setSymbolValue( Token::PlusSymbol ); break;
         case '-': mCurrentToken.setSymbolValue( Token::MinusSymbol ); break;
         case '*': mCurrentToken.setSymbolValue( Token::MulSymbol ); break;
-        case '/': mCurrentToken.setSymbolValue( Token::DivSymbol ); break;
         case '(': mCurrentToken.setSymbolValue( Token::OpenBracketSymbol ); break;
         case ')': mCurrentToken.setSymbolValue( Token::CloseBracketSymbol ); break;
         case '=': mCurrentToken.setSymbolValue( Token::EqualsSymbol ); break;
@@ -157,6 +168,10 @@ void Tokenizer::operationFinish( char character )
       else
         mCurrentToken.setSymbolValue( Token::GreaterThanSymbol );
       break;
+    case 6:
+      mCurrentToken = Token( Token::SpecialToken, mCurrentRow, mCurrentColumn );
+      mCurrentToken.setSymbolValue( Token::DivSymbol );
+      break;
     default:
       mCurrentToken = Token( Token::ErrorToken, mCurrentRow, mCurrentColumn );
       break; 
@@ -188,6 +203,10 @@ Token Tokenizer::nextToken()
       default:
         {
           const StateTableEntry entry = s_stateTable[ mCurrentState ][ characterClass ];
+
+          // RESET operation
+          if ( entry.function & Reset )
+            operationReset( character );
 
           // WRITE operation
           if ( entry.function & Write )
