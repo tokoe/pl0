@@ -79,6 +79,8 @@ bool HandlerBase::executeAction( ActionType type )
     case ActionStatementState20: return actionStatementState20(); break;
     case ActionStatementState21: return actionStatementState21(); break;
     case ActionStatementState22: return actionStatementState22(); break;
+    case ActionStatementState23: return actionStatementState23(); break;
+    case ActionStatementState24: return actionStatementState24(); break;
     case ActionExpressionState0: return actionExpressionState0(); break;
     case ActionExpressionState1: return actionExpressionState1(); break;
     case ActionExpressionState2: return actionExpressionState2(); break;
@@ -101,6 +103,8 @@ bool HandlerBase::executeAction( ActionType type )
     case ActionFactorState3: return actionFactorState3(); break;
     case ActionFactorState4: return actionFactorState4(); break;
     case ActionFactorState5: return actionFactorState5(); break;
+    case ActionFactorState6: return actionFactorState6(); break;
+    case ActionFactorState7: return actionFactorState7(); break;
     case ActionConditionState0: return actionConditionState0(); break;
     case ActionConditionState1: return actionConditionState1(); break;
     case ActionConditionState2: return actionConditionState2(); break;
@@ -363,6 +367,16 @@ bool HandlerBase::actionStatementState22()
   return true;
 }
 
+bool HandlerBase::actionStatementState23()
+{
+  return true;
+}
+
+bool HandlerBase::actionStatementState24()
+{
+  return true;
+}
+
 bool HandlerBase::actionExpressionState0()
 {
   return true;
@@ -469,6 +483,16 @@ bool HandlerBase::actionFactorState4()
 }
 
 bool HandlerBase::actionFactorState5()
+{
+  return true;
+}
+
+bool HandlerBase::actionFactorState6()
+{
+  return true;
+}
+
+bool HandlerBase::actionFactorState7()
 {
   return true;
 }

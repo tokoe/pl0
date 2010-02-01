@@ -152,10 +152,12 @@ Transition s_Statement[] = {
  /*16*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken}, 22, -1, HandlerBase::ActionStatementState16 },
  /*17*/ { SymbolTransition,  {(unsigned long)Token::InputSymbol},     18, 19, HandlerBase::ActionStatementState17 },
  /*18*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken}, 22, -1, HandlerBase::ActionStatementState18 },
- /*19*/ { SymbolTransition,  {(unsigned long)Token::OutputSymbol},    20, 21, HandlerBase::ActionStatementState19 },
+ /*19*/ { SymbolTransition,  {(unsigned long)Token::OutputSymbol},    20, 23, HandlerBase::ActionStatementState19 },
  /*20*/ { GraphTransition,   {(unsigned long)3},                      22, -1, HandlerBase::ActionStatementState20 },
  /*21*/ { NilTransition,     {(unsigned long)0},                      22, -1, HandlerBase::ActionStatementState21 },
- /*22*/ { EndTransition,     {(unsigned long)0},                       0, -1, HandlerBase::ActionStatementState22 }
+ /*22*/ { EndTransition,     {(unsigned long)0},                       0, -1, HandlerBase::ActionStatementState22 },
+ /*23*/ { SymbolTransition,  {(unsigned long)Token::ReturnSymbol},    24, 21, HandlerBase::ActionStatementState23 },
+ /*24*/ { GraphTransition,   {(unsigned long)3},                      22, -1, HandlerBase::ActionStatementState24 }
 };
 
 Transition s_Expression[] = {
@@ -185,8 +187,10 @@ Transition s_Factor[] = {
  /* 1*/ { SymbolTransition,  {(unsigned long)Token::OpenBracketSymbol},  2,  4, HandlerBase::ActionFactorState1 },
  /* 2*/ { GraphTransition,   {(unsigned long)3},                         3, -1, HandlerBase::ActionFactorState2 },
  /* 3*/ { SymbolTransition,  {(unsigned long)Token::CloseBracketSymbol}, 5, -1, HandlerBase::ActionFactorState3 },
- /* 4*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken},    5, -1, HandlerBase::ActionFactorState4 },
- /* 5*/ { EndTransition,     {(unsigned long)0},                         0, -1, HandlerBase::ActionFactorState5 }
+ /* 4*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken},    5,  6, HandlerBase::ActionFactorState4 },
+ /* 5*/ { EndTransition,     {(unsigned long)0},                         0, -1, HandlerBase::ActionFactorState5 },
+ /* 6*/ { SymbolTransition,  {(unsigned long)Token::CallSymbol},         7, -1, HandlerBase::ActionFactorState6 },
+ /* 7*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken},    5, -1, HandlerBase::ActionFactorState7 }
 };
 
 Transition s_Condition[] = {

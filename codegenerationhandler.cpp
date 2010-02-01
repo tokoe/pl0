@@ -185,6 +185,24 @@ bool CodeGenerationHandler::actionStatementState20()
   return true;
 }
 
+// RETURN
+bool CodeGenerationHandler::actionStatementState23()
+{
+  mWriter->writeOperation( CodeWriter::PutAddressVariableLocal, -16 );
+
+  return true;
+}
+
+// RETURN EXPRESSION
+bool CodeGenerationHandler::actionStatementState24()
+{
+  mWriter->writeOperation( CodeWriter::StoreValue );
+
+  mWriter->writeOperation( CodeWriter::ReturnProc );
+
+  return true;
+}
+
 // MINUS
 bool CodeGenerationHandler::actionExpressionState0()
 {
@@ -267,6 +285,22 @@ bool CodeGenerationHandler::actionFactorState4()
         break;
     }
   }
+  return true;
+}
+
+// CALL IDENTIFIER
+bool CodeGenerationHandler::actionFactorState7()
+{
+  // create dummy const value
+  mManager->setValue( 0 );
+  mManager->pushConstIdentifier();
+
+  // put dummy 'const' variable on stack as placeholder for return value
+  mWriter->writeOperation( CodeWriter::PutConst, mManager->constIndex( 0 ) );
+
+  const int procedureIndex = mManager->procedureIndex( currentToken().identifierValue() );
+  mWriter->writeOperation( CodeWriter::Call, procedureIndex );
+
   return true;
 }
 

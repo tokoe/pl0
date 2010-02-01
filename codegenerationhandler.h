@@ -41,6 +41,10 @@ class CodeGenerationHandler : public HandlerBase
     virtual bool actionStatementState18();
     // OUTPUT EXPRESSION
     virtual bool actionStatementState20();
+    // RETURN
+    virtual bool actionStatementState23();
+    // RETURN EXPRESSION
+    virtual bool actionStatementState24();
 
     // MINUS
     virtual bool actionExpressionState0();
@@ -62,6 +66,8 @@ class CodeGenerationHandler : public HandlerBase
     virtual bool actionFactorState0();
     // PUSH IDENTIFIER
     virtual bool actionFactorState4();
+    // CALL IDENTIFIER
+    virtual bool actionFactorState7();
 
     // ODD EXPRESSION
     virtual bool actionConditionState1();

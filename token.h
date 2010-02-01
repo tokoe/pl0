@@ -45,7 +45,8 @@ class Token
       LessThanSymbol,
       LessThanEqualSymbol,
       GreaterThanSymbol,
-      GreaterThanEqualSymbol
+      GreaterThanEqualSymbol,
+      ReturnSymbol
     };
 
     Token( TokenType type = EndToken, int row = 0, int column = 0 );

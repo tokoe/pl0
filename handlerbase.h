@@ -60,6 +60,8 @@ class HandlerBase
       ActionStatementState20,
       ActionStatementState21,
       ActionStatementState22,
+      ActionStatementState23,
+      ActionStatementState24,
 
       ActionExpressionState0,
       ActionExpressionState1,
@@ -85,6 +87,8 @@ class HandlerBase
       ActionFactorState3,
       ActionFactorState4,
       ActionFactorState5,
+      ActionFactorState6,
+      ActionFactorState7,
 
       ActionConditionState0,
       ActionConditionState1,
@@ -162,6 +166,8 @@ class HandlerBase
     virtual bool actionStatementState20();
     virtual bool actionStatementState21();
     virtual bool actionStatementState22();
+    virtual bool actionStatementState23();
+    virtual bool actionStatementState24();
 
     virtual bool actionExpressionState0();
     virtual bool actionExpressionState1();
@@ -187,6 +193,8 @@ class HandlerBase
     virtual bool actionFactorState3();
     virtual bool actionFactorState4();
     virtual bool actionFactorState5();
+    virtual bool actionFactorState6();
+    virtual bool actionFactorState7();
 
     virtual bool actionConditionState0();
     virtual bool actionConditionState1();

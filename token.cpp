@@ -109,6 +109,7 @@ QString Token::symbolName( SymbolType symbol )
     case Token::LessThanEqualSymbol: return "<="; break;
     case Token::GreaterThanSymbol: return ">"; break;
     case Token::GreaterThanEqualSymbol: return ">="; break;
+    case Token::ReturnSymbol: return "RETURN"; break;
     default: return QString(); break;
   }
 }
