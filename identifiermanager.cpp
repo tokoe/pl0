@@ -73,8 +73,8 @@ class IdentifierManager::ConstIdentifier : public IdentifierManager::IdentifierB
 class IdentifierManager::VariableIdentifier : public IdentifierManager::IdentifierBase
 {
   public:
-    VariableIdentifier( ProcedureIdentifier *parent )
-      : IdentifierBase( parent, Variable )
+    VariableIdentifier( ProcedureIdentifier *parent, bool isParameter )
+      : IdentifierBase( parent, Variable ), mIsParameter( isParameter )
     {
     }
 
@@ -88,8 +88,14 @@ class IdentifierManager::VariableIdentifier : public IdentifierManager::Identifi
       return mIndex;
     }
 
+    inline bool isParameter() const
+    {
+      return mIsParameter;
+    }
+
   private:
     int mIndex;
+    bool mIsParameter;
 };
 
 class IdentifierManager::ProcedureIdentifier : public IdentifierManager::IdentifierBase
@@ -98,7 +104,9 @@ class IdentifierManager::ProcedureIdentifier : public IdentifierManager::Identif
     ProcedureIdentifier( int index, ProcedureIdentifier *parent )
       : IdentifierBase( parent, Procedure ),
         mIndex( index ),
-        mVariableAddressCounter( 0 )
+        mVariableAddressCounter( 0 ),
+        mParameterAddressCounter( -16 ),
+        mParameterCount( 0 )
     {
     }
 
@@ -114,9 +122,27 @@ class IdentifierManager::ProcedureIdentifier : public IdentifierManager::Identif
       mChildIdentifiers.append( identifier );
     }
 
+    void addParameterIdentifier( IdentifierBase *identifier )
+    {
+      if ( identifier->type() == IdentifierBase::Variable ) {
+        VariableIdentifier *varIdentifier = static_cast<VariableIdentifier*>( identifier );
+        varIdentifier->setIndex( mParameterAddressCounter );
+
+        mParameterAddressCounter -= VariableAddressWidth;
+      }
+
+      mChildIdentifiers.append( identifier );
+      mParameterCount++;
+    }
+
     inline QList<IdentifierBase*> childIdentifiers() const
     {
       return mChildIdentifiers;
+    }
+
+    inline int parameterCount() const
+    {
+      return mParameterCount;
     }
 
     void cleanup()
@@ -138,7 +164,9 @@ class IdentifierManager::ProcedureIdentifier : public IdentifierManager::Identif
   private:
     int mIndex;
     int mVariableAddressCounter;
+    int mParameterAddressCounter;
     QList<IdentifierBase*> mChildIdentifiers;
+    int mParameterCount;
 };
 
 IdentifierManager::IdentifierManager()
@@ -184,10 +212,20 @@ bool IdentifierManager::pushConstIdentifier()
 
 bool IdentifierManager::pushVariableIdentifier()
 {
-  VariableIdentifier *identifier = new VariableIdentifier( mCurrentProcedure );
+  VariableIdentifier *identifier = new VariableIdentifier( mCurrentProcedure, false );
   identifier->setName( mCurrentName );
 
   mCurrentProcedure->addIdentifier( identifier );
+
+  return true;
+}
+
+bool IdentifierManager::pushParameterIdentifier()
+{
+  VariableIdentifier *identifier = new VariableIdentifier( mCurrentProcedure, true );
+  identifier->setName( mCurrentName );
+
+  mCurrentProcedure->addParameterIdentifier( identifier );
 
   return true;
 }
@@ -274,6 +312,15 @@ int IdentifierManager::currentProcedureIndex() const
 int IdentifierManager::currentProcedureVariableSize() const
 {
   return mCurrentProcedure->variableSize();
+}
+
+int IdentifierManager::procedureParameterCount( const QString &name ) const
+{
+  ProcedureIdentifier *procedure = static_cast<ProcedureIdentifier*>( find( IdentifierBase::Procedure, name ) );
+  if ( !procedure )
+    return 0;
+
+  return procedure->parameterCount();
 }
 
 int IdentifierManager::procedureCount() const

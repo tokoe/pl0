@@ -16,6 +16,7 @@ class IdentifierManager
 
     bool pushConstIdentifier();
     bool pushVariableIdentifier();
+    bool pushParameterIdentifier();
     bool pushProcedure();
     bool endProcedure();
 
@@ -33,6 +34,7 @@ class IdentifierManager
 
     int currentProcedureIndex() const;
     int currentProcedureVariableSize() const;
+    int procedureParameterCount( const QString &name ) const;
 
     int procedureCount() const;
 

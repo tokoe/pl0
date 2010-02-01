@@ -122,14 +122,19 @@ Transition s_Block[] = {
  /*12*/ { NilTransition,     {(unsigned long)0},                      14, -1, HandlerBase::ActionBlockState12 },
  /*13*/ { NilTransition,     {(unsigned long)0},                      14, -1, HandlerBase::ActionBlockState13 },
  /*14*/ { SymbolTransition,  {(unsigned long)Token::ProcedureSymbol}, 15, 20, HandlerBase::ActionBlockState14 },
- /*15*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken}, 16, -1, HandlerBase::ActionBlockState15 },
+ /*15*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken}, 23, -1, HandlerBase::ActionBlockState15 },
  /*16*/ { SymbolTransition,  {(unsigned long)Token::SemicolonSymbol}, 17, -1, HandlerBase::ActionBlockState16 },
  /*17*/ { GraphTransition,   {(unsigned long)1},                      18, -1, HandlerBase::ActionBlockState17 },
  /*18*/ { SymbolTransition,  {(unsigned long)Token::SemicolonSymbol}, 19, -1, HandlerBase::ActionBlockState18 },
  /*19*/ { NilTransition,     {(unsigned long)0},                      14, -1, HandlerBase::ActionBlockState19 },
  /*20*/ { NilTransition,     {(unsigned long)0},                      21, -1, HandlerBase::ActionBlockState20 },
  /*21*/ { GraphTransition,   {(unsigned long)2},                      22, -1, HandlerBase::ActionBlockState21 },
- /*22*/ { EndTransition,     {(unsigned long)0},                       0, -1, HandlerBase::ActionBlockState22 }
+ /*22*/ { EndTransition,     {(unsigned long)0},                       0, -1, HandlerBase::ActionBlockState22 },
+ /*23*/ { SymbolTransition,  {(unsigned long)Token::OpenBracketSymbol},  24, 27, HandlerBase::ActionBlockState23 },
+ /*24*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken},    25, -1, HandlerBase::ActionBlockState24 },
+ /*25*/ { SymbolTransition,  {(unsigned long)Token::CommaSymbol},        24, 26, HandlerBase::ActionBlockState25 },
+ /*26*/ { SymbolTransition,  {(unsigned long)Token::CloseBracketSymbol}, 16, -1, HandlerBase::ActionBlockState26 },
+ /*27*/ { NilTransition,     {(unsigned long)0},                         16, -1, HandlerBase::ActionBlockState27 }
 };
 
 Transition s_Statement[] = {
@@ -149,13 +154,18 @@ Transition s_Statement[] = {
  /*13*/ { SymbolTransition,  {(unsigned long)Token::EndSymbol},       22, -1, HandlerBase::ActionStatementState13 },
  /*14*/ { SymbolTransition,  {(unsigned long)Token::SemicolonSymbol}, 12, 13, HandlerBase::ActionStatementState14 },
  /*15*/ { SymbolTransition,  {(unsigned long)Token::CallSymbol},      16, 17, HandlerBase::ActionStatementState15 },
- /*16*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken}, 22, -1, HandlerBase::ActionStatementState16 },
+ /*16*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken}, 23, -1, HandlerBase::ActionStatementState16 },
  /*17*/ { SymbolTransition,  {(unsigned long)Token::InputSymbol},     18, 19, HandlerBase::ActionStatementState17 },
  /*18*/ { MorphemTransition, {(unsigned long)Token::IdentifierToken}, 22, -1, HandlerBase::ActionStatementState18 },
  /*19*/ { SymbolTransition,  {(unsigned long)Token::OutputSymbol},    20, 21, HandlerBase::ActionStatementState19 },
  /*20*/ { GraphTransition,   {(unsigned long)3},                      22, -1, HandlerBase::ActionStatementState20 },
  /*21*/ { NilTransition,     {(unsigned long)0},                      22, -1, HandlerBase::ActionStatementState21 },
- /*22*/ { EndTransition,     {(unsigned long)0},                       0, -1, HandlerBase::ActionStatementState22 }
+ /*22*/ { EndTransition,     {(unsigned long)0},                       0, -1, HandlerBase::ActionStatementState22 },
+ /*23*/ { SymbolTransition,  {(unsigned long)Token::OpenBracketSymbol},  24, 27, HandlerBase::ActionStatementState23 },
+ /*24*/ { GraphTransition,   {(unsigned long)3},                         25, -1, HandlerBase::ActionStatementState24 },
+ /*25*/ { SymbolTransition,  {(unsigned long)Token::CommaSymbol},        24, 26, HandlerBase::ActionStatementState25 },
+ /*26*/ { SymbolTransition,  {(unsigned long)Token::CloseBracketSymbol}, 22, -1, HandlerBase::ActionStatementState26 },
+ /*27*/ { NilTransition,     {(unsigned long)0},                         22, -1, HandlerBase::ActionStatementState27 }
 };
 
 Transition s_Expression[] = {

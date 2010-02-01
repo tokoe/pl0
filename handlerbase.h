@@ -36,6 +36,11 @@ class HandlerBase
       ActionBlockState20,
       ActionBlockState21,
       ActionBlockState22,
+      ActionBlockState23,
+      ActionBlockState24,
+      ActionBlockState25,
+      ActionBlockState26,
+      ActionBlockState27,
 
       ActionStatementState0,
       ActionStatementState1,
@@ -60,6 +65,11 @@ class HandlerBase
       ActionStatementState20,
       ActionStatementState21,
       ActionStatementState22,
+      ActionStatementState23,
+      ActionStatementState24,
+      ActionStatementState25,
+      ActionStatementState26,
+      ActionStatementState27,
 
       ActionExpressionState0,
       ActionExpressionState1,
@@ -138,6 +148,11 @@ class HandlerBase
     virtual bool actionBlockState20();
     virtual bool actionBlockState21();
     virtual bool actionBlockState22();
+    virtual bool actionBlockState23();
+    virtual bool actionBlockState24();
+    virtual bool actionBlockState25();
+    virtual bool actionBlockState26();
+    virtual bool actionBlockState27();
 
     virtual bool actionStatementState0();
     virtual bool actionStatementState1();
@@ -162,6 +177,11 @@ class HandlerBase
     virtual bool actionStatementState20();
     virtual bool actionStatementState21();
     virtual bool actionStatementState22();
+    virtual bool actionStatementState23();
+    virtual bool actionStatementState24();
+    virtual bool actionStatementState25();
+    virtual bool actionStatementState26();
+    virtual bool actionStatementState27();
 
     virtual bool actionExpressionState0();
     virtual bool actionExpressionState1();

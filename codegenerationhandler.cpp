@@ -144,10 +144,27 @@ bool CodeGenerationHandler::actionStatementState10()
   return true;
 }
 
-// CALL IDENTIFIER
+// CALL
 bool CodeGenerationHandler::actionStatementState16()
 {
-  const int procedureIndex = mManager->procedureIndex( currentToken().identifierValue() );
+  mProcedureToCall = currentToken().identifierValue();
+
+  return true;
+}
+
+// CALL IDENTIFIER WITH PARAMS
+bool CodeGenerationHandler::actionStatementState26()
+{
+  const int procedureIndex = mManager->procedureIndex( mProcedureToCall );
+  mWriter->writeOperation( CodeWriter::Call, procedureIndex );
+
+  return true;
+}
+
+// CALL IDENTIFIER
+bool CodeGenerationHandler::actionStatementState27()
+{
+  const int procedureIndex = mManager->procedureIndex( mProcedureToCall );
   mWriter->writeOperation( CodeWriter::Call, procedureIndex );
 
   return true;

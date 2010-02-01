@@ -35,8 +35,12 @@ class CodeGenerationHandler : public HandlerBase
     virtual bool actionStatementState8();
     // STATEMENT
     virtual bool actionStatementState10();
-    // CALL IDENTIFIER
+    // CALL
     virtual bool actionStatementState16();
+    // CALL IDENTIFIER WITH PARAMS
+    virtual bool actionStatementState26();
+    // CALL IDENTIFIER WITHOUT PARAMS
+    virtual bool actionStatementState27();
     // INPUT IDENTIFIER
     virtual bool actionStatementState18();
     // OUTPUT EXPRESSION
@@ -84,6 +88,7 @@ class CodeGenerationHandler : public HandlerBase
     IdentifierManager *mManager;
     CodeWriter *mWriter;
     bool mTermIsNegative;
+    QString mProcedureToCall;
     Token::SymbolType mComparisonSymbol;
 };
 

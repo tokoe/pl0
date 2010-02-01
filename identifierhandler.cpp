@@ -68,6 +68,30 @@ bool IdentifierHandler::actionBlockState18()
   return true;
 }
 
+bool IdentifierHandler::actionBlockState23()
+{
+  mProcedureParameters.clear();
+
+  return true;
+}
+
+bool IdentifierHandler::actionBlockState24()
+{
+  mProcedureParameters.append( currentToken().identifierValue() );
+
+  return true;
+}
+
+bool IdentifierHandler::actionBlockState26()
+{
+  for ( int i = mProcedureParameters.count() - 1; i >= 0; --i ) {
+    mManager->setName( mProcedureParameters.at( i ) );
+    mManager->pushParameterIdentifier();
+  }
+
+  return true;
+}
+
 bool IdentifierHandler::actionStatementState0()
 {
   if ( !mManager->hasVariableIdentifier( currentToken().identifierValue() ) ) {
@@ -85,6 +109,9 @@ bool IdentifierHandler::actionStatementState16()
     return false;
   }
 
+  mProcedureToCall = currentToken().identifierValue();
+  mCallProcedureParameterCount = 0;
+
   return true;
 }
 
@@ -92,6 +119,25 @@ bool IdentifierHandler::actionStatementState18()
 {
   if ( !mManager->hasVariableIdentifier( currentToken().identifierValue() ) ) {
     setErrorText( QString( "Variable %1 is undeclared in this scope" ).arg( currentToken().identifierValue() ) );
+    return false;
+  }
+
+  return true;
+}
+
+bool IdentifierHandler::actionStatementState24()
+{
+  mCallProcedureParameterCount++;
+
+  return true;
+}
+
+bool IdentifierHandler::actionStatementState26()
+{
+  const int parameterCount = mManager->procedureParameterCount( mProcedureToCall );
+  if ( mCallProcedureParameterCount != parameterCount ) {
+    setErrorText( QString( "Procedure %1 expected %2 parameters but got %3" ).arg( mProcedureToCall )
+                                                                             .arg( parameterCount ).arg( mCallProcedureParameterCount ) );
     return false;
   }
 
